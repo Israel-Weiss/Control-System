@@ -1,4 +1,5 @@
-# Control-SystemDemonstration of fan coil units control within a building control management system
+# Control-System
+Demonstration of fan coil units control within a building control management system
 
 Running the project 
 
