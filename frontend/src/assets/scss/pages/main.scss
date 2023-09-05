@@ -1,0 +1,78 @@
+.main-continer {
+
+    .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        background-color: rgb(0, 87, 87);
+        color: beige;
+        font-size: 30px;
+        font-weight: bold;
+        border-bottom: 2PX solid black;
+    }
+
+    .screen-continer {
+        background-color: rgb(228, 241, 253);
+
+        .main-img {
+            position: absolute;
+            height: calc(100vh - 128px);
+            width: 100vw;
+        }
+
+        .button-continer {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: 60px;
+            width: 250px;
+            margin: auto;
+            padding-top: 40px;
+
+            .button {
+                width: 250px;
+                height: 100px;
+                background-color: rgb(0, 87, 87);
+                color: rgb(255, 255, 255);
+                margin: auto;
+                border: solid 3px;
+                border-color: rgb(139, 139, 139) black black rgb(139, 139, 139);
+                cursor: pointer;
+                position: relative;
+
+                .text {
+                    width: 90px;
+                    height: 100px;
+                    position: absolute;
+                    top: 0;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: beige;
+                }
+
+                .img {
+                    height: 90%;
+                    width: 130px;
+                    display: inline;
+                    margin-left: 95px;
+                }
+            }
+
+            .button:hover {
+                background-color: rgb(0, 58, 58);
+
+                .text {
+                    font-size: 19px;
+                }
+            }
+
+            .button:active {
+                border-color: black rgb(113, 113, 113) rgb(113, 113, 113) black;
+            }
+        }
+    }
+}

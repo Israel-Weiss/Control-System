@@ -1,0 +1,76 @@
+.user-spinner {
+    padding-top: 16%;
+    text-align: center;
+    font-size: 30px;
+    color: rgb(0, 70, 55);
+    height: calc(100vh - 400px);
+}
+
+.user-manage {
+    .title {
+        position: sticky;
+        top: 86px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        background-color: rgb(0, 87, 87);
+        color: beige;
+        font-size: 30px;
+        font-weight: bold;
+        border-bottom: 2PX solid black;
+    }
+
+    .screen-continer {
+        min-height: calc(100vh - 130px);
+        display: flex;
+        color: aliceblue;
+        width: 100%;
+        background-color: rgb(225, 224, 224);
+        padding-bottom: 50px;
+
+        p {
+            margin: auto;
+        }
+
+        .add-user-continer {
+            width: 38%;
+            display: flex;
+        }
+
+        .users-list-continer {
+            width: 62%;
+            display: flex;
+            width: fit-content;
+            margin-left: 2%;
+            margin-top: 15px;
+
+            .users-list .users-menu {
+                display: flex;
+                gap: 2px;
+                background-color: rgb(0, 65, 115);
+                color: beige;
+                font-size: 17px;
+                padding: 3px;
+                width: 730px;
+                height: 28px;
+
+                * {
+                    width: 190px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-align: center;
+                }
+
+                .icon {
+                    width: 40px;
+                }
+
+                .name {
+                    width: 100px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,83 @@
+.main-air-continer {
+    .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 40px;
+        background-color: rgb(0, 87, 87);
+        color: beige;
+        font-size: 30px;
+        font-weight: bold;
+        border-bottom: 2PX solid black;
+    }
+
+    .screen-continer {
+        position: relative;
+        height: calc(100vh - 127px);
+        background-color: rgb(40, 124, 124);
+
+        .main-img {
+            position: absolute;
+            height: calc(100vh - 127px);
+            right: 0;
+            opacity: 0.85;
+        }
+
+        .button-continer {
+            display: grid;
+            grid-template:
+                "a b"
+                "c d" / 250px 250px;
+            text-align: center;
+            gap: 50px 100px;
+            padding-top: 80px;
+            justify-content: center;
+            position: relative;
+
+            .button {
+                min-width: 250px;
+                height: 150px;
+                background-color: rgb(0, 87, 87);
+                border: solid 3px;
+                border-color: rgb(139, 139, 139) black black rgb(139, 139, 139);
+                cursor: pointer;
+                position: relative;
+
+                .text {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    padding-left: 15px;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    font-size: 30px;
+                    font-weight: bold;
+                    justify-content: center;
+                    color: beige;
+                }
+
+                .img {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    height: 100%;
+                }
+                
+            }
+
+            .button:hover {
+                background-color: rgb(0, 78, 78);
+
+                .text{
+                    font-size: 32px;
+                    padding-left: 10px;
+                }
+            }
+
+            .button:active {
+                border-color: black rgb(113, 113, 113) rgb(113, 113, 113) black;
+            }
+        }
+    }
+}

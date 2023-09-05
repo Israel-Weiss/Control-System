@@ -1,0 +1,50 @@
+.user-manage .add-user {
+    position: fixed;
+    top: 150px;
+    left: calc(19% - 200px);
+    width: 400px;
+    width: 30%;
+    max-width: 400px;
+    height: 260px;
+    padding: 10px;
+    border: solid 2px black;
+    background-color: rgb(214, 231, 244);
+    color: rgb(0, 0, 59);
+    text-align: center;
+
+    .subtitle {
+        margin-top: 10px;
+        font-size: 40px;
+        margin-bottom: 25px;
+        text-decoration: underline;
+    }
+
+    .lable {
+        margin: 20px;
+        font-size: 20px;
+
+        .select {
+            width: 170px;
+            height: 21px;
+            padding: 2px;
+        }
+    }
+
+    .apply {
+        margin-top: 7px;
+        font-size: 20px;
+        background-color: rgb(0, 53, 91);
+        color: beige;
+        border: solid 1px;
+        border-color: white black black white;
+        cursor: pointer;
+    }
+
+    .apply:hover {
+        background-color: rgb(0, 88, 150);
+    }
+
+    .apply:active {
+        border-color: black rgb(113, 113, 113) rgb(113, 113, 113) black;
+    }
+}

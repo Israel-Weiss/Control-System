@@ -1,0 +1,41 @@
+.event-privew {
+    height: 18px;
+    font-size: 12px;
+
+    * {
+        padding-left: 6px;
+        cursor: pointer;
+    }
+
+    .start-time {
+        color: red;
+    }
+    
+    .end-time {
+        color: green;
+    }
+}
+
+.event-privew.open {
+    background-color: rgb(255, 230, 230);
+}
+
+.event-privew.end {
+    background-color: rgb(230, 255, 230);
+}
+
+.event-privew.acknolage {
+    background-color: rgb(230, 230, 255);
+}
+
+.event-privew.open:hover {
+    background-color: rgb(255, 210, 210);
+}
+
+.event-privew.end:hover {
+    background-color: rgb(210, 255, 210);
+}
+
+.event-privew.acknolage:hover {
+    background-color: rgb(210, 210, 255);
+}

@@ -1,0 +1,61 @@
+.modal-air-com {
+    position: absolute;
+    z-index: 1;
+    top: 230px;
+    left: 48vw;
+    height: 155px;
+    width: 100px;
+    background-color: rgb(23, 145, 145);
+    color: rgb(252, 252, 239);
+    border: solid 2px black;
+    font-size: 16px;
+    text-align: center;
+    padding: 4px;
+    
+    .title {
+        font-size: 20px;
+        margin-top: 0;
+        margin-bottom: 10px;
+        text-decoration: underline;
+    }
+    
+    .m-button {
+        width: 70px;
+        height: 23px;
+        display: block;
+        margin: auto;
+        margin-bottom: 4px;
+        background-color: rgb(234, 234, 234);
+        border: solid 1px;
+        border-color: white black black white;
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: bold;
+    }
+    
+    .m-button:hover {
+        background-color: rgb(207, 213, 213);
+    }
+    
+    .m-button:active {
+        border-color:  black rgb(113, 113, 113) rgb(113, 113, 113) black;
+    }
+    
+    .m-button.auto {
+        color: rgb(1, 1, 150);
+    }
+    
+    .m-button.on {
+        color: rgb(0, 150, 0);
+    }
+    
+    .m-button.off {
+        color: brown;
+    }
+    
+    .modal-air-mode .close {
+        font-weight: normal;
+    }
+}    
+
+

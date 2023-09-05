@@ -1,0 +1,98 @@
+.about .title {
+    position: sticky;
+    top: 85px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color: rgb(0, 87, 87);
+    color: beige;
+    font-size: 30px;
+    font-weight: bold;
+    border-bottom: 2PX solid black;
+
+    .button.language {
+        background-color: rgb(0, 56, 58);
+        font-size: 20px;
+        width: 110px;
+        height: 30px;
+        position: absolute;
+        right: 2px;
+        bottom: 2px;
+        color: beige;
+        border: solid 2px;
+        border-color: rgb(190, 189, 189) black black rgb(190, 189, 189);
+        cursor: pointer;
+    }
+
+    .button.language:hover {
+        background-color: rgb(0, 43, 44);
+    }
+
+    .button.language:active {
+        border-color: black rgb(113, 113, 113) rgb(113, 113, 113) black;
+    }
+
+}
+
+.about .screen-continer {
+    display: flex;
+    background-color: rgb(0, 78, 127);
+
+    .side-bar {
+        position: sticky;
+        top: 127px;
+        color: aliceblue;
+        width: 400px;
+        height: 100%;
+        font-size: 25px;
+
+        .list {
+            padding-top: 30px;
+            list-style: square;
+        }
+
+        .key {
+            margin: auto;
+            text-indent: 20px;
+            margin-bottom: 25px;
+            height: 35px;
+            width: 200px;
+            border-radius: 30px;
+        }
+
+        .key:hover {
+            cursor: pointer;
+            background-color: rgb(0, 59, 96);
+            text-decoration: underline;
+        }
+    }
+
+    .text-continer {
+        background-color: rgb(193, 214, 226);
+        color: rgb(0, 0, 57);
+        padding-left: 5vw;
+        padding-right: 5vw;
+        width: 100%;
+
+        .subtitle {
+            font-size: 30px;
+            text-decoration: underline;
+        }
+
+        .txt {
+            font-size: 20px;
+            max-width: 800px;
+        }
+    }
+
+    .summary {
+        background-color: rgb(20, 136, 0);
+        color: azure;
+        font-size: 30px;
+        padding: 10px;
+        margin-top: 30px;
+        margin-bottom: 50px;
+        border: solid 3px rgb(18, 57, 0);
+    }
+}

@@ -1,0 +1,116 @@
+.update-user {
+    position: fixed;
+    top: 150px;
+    left: calc(50% - 100px);
+    height: 380px;
+    width: 425px;
+    padding: 7px;
+    background-color: rgb(184, 221, 247);
+    color: rgb(0, 0, 22);
+    border: ridge 3px rgb(0, 0, 15);
+    font-size: 16px;
+
+    .subtitle {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-size: 30px;
+        text-decoration: underline;
+        text-align: center;
+    }
+
+    .name-title {
+        font-size: 45px;
+        text-align: center;
+    }
+
+    .lable {
+        margin: 20px;
+        padding: 5px;
+        font-size: 20px;
+        border: solid 1px rgb(0, 0, 59);
+        line-height: 1.8;
+        text-indent: 20px;
+
+        .password,
+        .group {
+            display: inline-block;
+            line-height: 1.2;
+            width: 160px;
+            background-color: azure;
+            border: solid 1px;
+            border-color: rgb(0, 0, 0) white white black;
+            color: rgb(86, 86, 86);
+            margin-left: 20px;
+            text-indent: 10px;
+        }
+
+        .line-input {
+            margin-left: 23px;
+
+            .input {
+                background-color: azure;
+                font-size: 20px;
+                width: 157px;
+                margin-left: 20px;
+                text-indent: 10px;
+                cursor: pointer;
+            }
+        }
+
+        .line-select {
+            margin-left: 24px;
+
+            .select {
+                background-color: azure;
+                width: 163px;
+                height: 26px;
+                padding-bottom: 2px;
+                font-size: 18px;
+                margin-left: 20px;
+                text-indent: 10px;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .apply {
+        text-align: center;
+
+        .apply-btn {
+            margin-top: 7px;
+            font-size: 24px;
+            background-color: rgb(0, 53, 91);
+            color: beige;
+            border: solid 1px;
+            border-color: white black black white;
+            cursor: pointer;
+        }
+
+        .apply-btn:hover {
+            background-color: rgb(0, 77, 132);
+        }
+
+        .apply-btn:active {
+            border-color: black rgb(113, 113, 113) rgb(113, 113, 113) black;
+        }
+    }
+
+    .close {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        font-size: 20px;
+        background-color: beige;
+        border: solid 1px;
+        border-color: white black black white;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        background-color: rgb(228, 228, 210);
+    }
+
+    .close:active {
+        border-color: black rgb(113, 113, 113) rgb(113, 113, 113) black;
+    }
+}
