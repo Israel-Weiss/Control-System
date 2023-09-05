@@ -3,13 +3,12 @@ Demonstration of fan coil units control within a building control management sys
 
 Running the project 
 
-After you have cloned the project and downloading the files, there are two options to run the application in the browser:
+After running the "clone" command and downloading the files from GitHub, please enter the command "npm i" in the backend folder. 
+Once the installation is complete, run the command "npm start". Then, open your browser and go to http://localhost:3030.
 
-A. Request through the backend, type the command 'npm start' to backend folder, and open the browser with the address 
-http://localhost:3000/ (requesting port 3030)
+If you want to access through the frontend, you can run "npm i" followed by "npm start" in the frontend folder. 
+The browser will automatically open with a request to port 3000.
 
-B. Request through the frontend, type the command 'npm start' to backend folder, and then 'npm start' to frontend folder 
-The browser will open automatically with the desired address (requesting port 3000).
 
 General
 
