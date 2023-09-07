@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { ParsedQs } from 'qs'
 import { query, getById, getByParams, update, add, remove } from './user.service'
-import { User } from '../../types/interfaces'
+import { User } from '../../types'
 
 
 async function getUsers(req: Request, res: Response) {

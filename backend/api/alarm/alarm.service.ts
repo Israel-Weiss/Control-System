@@ -3,9 +3,7 @@ import * as mongoDB from "mongodb"
 import { socketService } from '../../services'
 import { getCollection } from '../../services'
 import { fcService } from '../'
-import { Alarm, Fc } from '../../types/interfaces'
-import { CollectionName } from '../../types/enums'
-import { TypeAlarm } from "../../types/enums"
+import { Alarm, Fc, CollectionName, TypeAlarm, AlarmDes } from '../../types'
 
 const dbName = 'tsDB'
 const emitAlarm = 'alarm'
@@ -31,7 +29,7 @@ async function query(): Promise<Alarm[]> {
     }
 }
 
-async function addAlarm(towerName: string, fcId: string, typeAlarm: TypeAlarm): Promise<string> {
+async function addAlarm(towerName: string, fcId: string, typeAlarm: TypeAlarm): Promise<string> {    
     try {
         const fc: Fc = await fcService.getById(towerName, fcId)
         const alarm: Alarm = _createTempAlarm(towerName, fc, typeAlarm)
@@ -105,7 +103,9 @@ async function startAckInterval(): Promise<void> {
 }
 
 function _createTempAlarm(towerName: string, fc: Fc, typeAlarm: TypeAlarm): Alarm {
-    const alarmDescription: TypeAlarm = TypeAlarm.High ? TypeAlarm.High : TypeAlarm.Low
+    const alarmDescription: AlarmDes = typeAlarm === TypeAlarm.High 
+    ? AlarmDes.High 
+    : AlarmDes.Low
     const alarm: Alarm = {
         id: _makeId(12),
         fc: {

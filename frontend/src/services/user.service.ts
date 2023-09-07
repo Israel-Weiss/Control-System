@@ -1,5 +1,5 @@
 import { httpService } from "./http.service"
-import { User, Users } from "../services/types"
+import { User } from "../types/interfaces"
 
 
 export {
@@ -13,14 +13,14 @@ export {
 
 interface UserBody {name?: string, password: string, authorization: number}
 
-async function getUsers(grup: string | null = null): Promise<Users> {
-    let users: Users = await httpService.get(`user?grup=${grup}`)
+async function getUsers(grup: string | null = null): Promise<User[]> {
+    let users: User[] = await httpService.get(`user?grup=${grup}`)
     return users
 }
 
-async function getUser(userId: string): Promise<Users> {
-    let users: Users = await httpService.get(`user/${userId}`)
-    return users
+async function getUser(userId: string): Promise<User> {
+    let user: User = await httpService.get(`user/${userId}`)
+    return user
 }
 
 async function checkUser(name: string, password: string): Promise<User> {

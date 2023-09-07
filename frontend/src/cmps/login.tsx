@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useRef, useState } from 'react'
 import { checkUser } from '../services/user.service'
 import userIcon from '../assets/imgs/user.png'
-import { User } from "../services/types"
+import { User } from "../types/interfaces"
 
 interface Props { login: (user: User) => void, close: () => void }
 

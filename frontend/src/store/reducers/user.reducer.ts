@@ -1,4 +1,4 @@
-import { User, UserAction } from "../../services/types"
+import { User, UserAction } from "../../types/interfaces"
 
 interface UserState { loggedInUser?: User }
 

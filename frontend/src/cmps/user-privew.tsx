@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { removeUser } from "../services/user.service";
 import userIcon from '../assets/imgs/user.png'
-import { User, State } from "../services/types"
+import { User, State } from "../types/interfaces"
 
 interface Props { user: User, showUpdate: () => void }
 

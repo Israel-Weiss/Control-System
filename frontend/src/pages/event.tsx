@@ -5,8 +5,7 @@ import { EventSetting } from "../cmps/event-setting"
 import { socketService } from "../services/socket.service"
 import '@fortawesome/fontawesome-free/css/all.css'
 import { useSelector } from "react-redux"
-import { Alarm, Alarms } from '../services/types'
-import { User, State } from "../services/types"
+import { Alarm, User, State } from '../types/interfaces'
 
 
 export function Event(): ReactElement {
@@ -17,10 +16,10 @@ export function Event(): ReactElement {
         return () => socketService.off('alarm')
     }, [])
 
-    const [alarms, setAlarms] = useState<Alarms>([])
+    const [alarms, setAlarms] = useState<Alarm[]>([])
 
     const loadAlarms = async (): Promise<void> => {
-        const newList: Alarms = await getAlarms()
+        const newList: Alarm[] = await getAlarms()
         setAlarms(newList)
     }
 

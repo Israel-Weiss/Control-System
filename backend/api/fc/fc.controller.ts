@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 import { query, getById, update } from './fc.service'
 import { tempService } from '../../services'
-import { Fc } from '../../types/interfaces'
+import { Fc } from '../../types'
 
 async function getFcs(req: Request, res: Response): Promise<void> {
     try {

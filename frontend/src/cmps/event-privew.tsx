@@ -1,5 +1,5 @@
 import { ReactElement } from "react"
-import { Alarm } from '../services/types'
+import { Alarm } from '../types/interfaces'
 
 interface Props { alarm: Alarm, openModal: (alarmId: string) => void }
 

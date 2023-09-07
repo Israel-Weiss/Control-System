@@ -1,7 +1,7 @@
 import { ReactElement, useState } from "react"
 import { addUser } from "../services/user.service"
 import { useSelector } from "react-redux"
-import { User, State } from "../services/types"
+import { User, State } from "../types/interfaces"
 
 export function AddUser(): ReactElement {
 

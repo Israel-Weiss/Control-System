@@ -1,6 +1,6 @@
 import * as desImport from '../../data/descriptios'
 import { createCollection } from './fc.service'
-import { Fc } from '../../types/interfaces'
+import { Fc } from '../../types'
 
 const towerNames = ['A', 'B', 'C', 'D']
 

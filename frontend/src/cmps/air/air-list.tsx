@@ -7,7 +7,7 @@ import { ModalAirCom } from "./modal-air-com"
 import { ModalPrompt } from "./modal-prompt"
 import { getFcsList, update } from "../../services/fc.service"
 import { socketService } from "../../services/socket.service"
-import { Fc, Fcs, User, State } from "../../services/types"
+import { Fc, User, State } from "../../types/interfaces"
 
 interface props {
     tower: string,
@@ -28,10 +28,10 @@ export function AirList({ tower, floor, exitFloor, enterFloor }: props): ReactEl
         }
     }, [floor])
 
-    const [fcsList, setFcs] = useState<Fcs>([])
+    const [fcsList, setFcs] = useState<Fc[]>([])
 
     const loadFcs = async (): Promise<void> => {
-        const fcs: Fcs = await getFcsList(tower, floor)
+        const fcs: Fc[] = await getFcsList(tower, floor)
         setFcs(fcs)
     }
 

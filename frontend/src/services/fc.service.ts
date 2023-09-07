@@ -1,5 +1,5 @@
 import { httpService } from "./http.service"
-import { Fc, Fcs } from "../services/types"
+import { Fc } from "../types/interfaces"
 
 export {
     getFcsList,
@@ -9,8 +9,8 @@ export {
 
 interface FcBody {field: string, val: number}
 
-async function getFcsList(towerName: string, floor: string): Promise<Fcs> {
-    const fcsList: Fcs = await httpService.get(`fc?tower=${towerName}&floor=${floor}`)
+async function getFcsList(towerName: string, floor: string): Promise<Fc[]> {
+    const fcsList: Fc[] = await httpService.get(`fc?tower=${towerName}&floor=${floor}`)
     return fcsList
 }
 

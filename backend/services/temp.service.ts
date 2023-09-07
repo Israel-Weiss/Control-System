@@ -1,8 +1,7 @@
 import { fcService, alarmService} from '../api'
 import { socketService } from './'
 
-import { Fc } from '../types/interfaces'
-import { TypeAlarm } from '../types/enums'
+import { Fc, TypeAlarm } from '../types'
 
 const towerNames = ['A', 'B', 'C', 'D']
 const emitFcs = 'fcsList'
@@ -58,7 +57,7 @@ function _getTowerListUpAlarms(fcsList: Fc[], towerName: string): Fc[] {
         if ((!intervalAlarm && curFc.alarm === 0) || (intervalAlarm && curFc.alarm > 0)) {
             return curFc
         }
-        if (intervalAlarm) {
+        if (intervalAlarm) {            
             const typeAlarm: TypeAlarm = curFc.temp > curFc.spTemp ? TypeAlarm.High : TypeAlarm.Low
             _startTimeout(towerName, curFc, typeAlarm)
             curFc.alarm = 2

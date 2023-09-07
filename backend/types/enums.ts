@@ -9,6 +9,11 @@ export enum CollectionName {
 }
 
 export enum TypeAlarm {
-    High,
-    Low
+    High = 'high',
+    Low = 'low'
+}
+
+export enum AlarmDes {
+    High = 'High temperature',
+    Low = 'Low temperature'
 }

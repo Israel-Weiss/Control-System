@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateSpecial = exports.startTempInterval = void 0;
 const api_1 = require("../api");
 const _1 = require("./");
-const enums_1 = require("../types/enums");
+const types_1 = require("../types");
 const towerNames = ['A', 'B', 'C', 'D'];
 const emitFcs = 'fcsList';
 let timeoutIds;
@@ -72,7 +72,7 @@ function _getTowerListUpAlarms(fcsList, towerName) {
             return curFc;
         }
         if (intervalAlarm) {
-            const typeAlarm = curFc.temp > curFc.spTemp ? enums_1.TypeAlarm.High : enums_1.TypeAlarm.Low;
+            const typeAlarm = curFc.temp > curFc.spTemp ? types_1.TypeAlarm.High : types_1.TypeAlarm.Low;
             _startTimeout(towerName, curFc, typeAlarm);
             curFc.alarm = 2;
         }
@@ -112,7 +112,7 @@ function _stopTimeout(fcId) {
 function _openAlarm(towerName, fcId, typeAlarm) {
     return __awaiter(this, void 0, void 0, function* () {
         const alarmId = yield api_1.alarmService.addAlarm(towerName, fcId, typeAlarm);
-        const tempAlarm = typeAlarm === enums_1.TypeAlarm.High
+        const tempAlarm = typeAlarm === types_1.TypeAlarm.High
             ? { status: 1, highTempId: alarmId, lowTempId: null }
             : { status: 2, highTempId: null, lowTempId: alarmId };
         api_1.fcService.update(towerName, fcId, 'startAlarm', tempAlarm);
@@ -156,7 +156,7 @@ function _updateAlarm(towerName, fcId) {
             || (deviationAlarm && fc.alarm > 0))
             return;
         if (deviationAlarm) {
-            const typeAlarm = fc.temp > fc.spTemp ? enums_1.TypeAlarm.High : enums_1.TypeAlarm.Low;
+            const typeAlarm = fc.temp > fc.spTemp ? types_1.TypeAlarm.High : types_1.TypeAlarm.Low;
             _startTimeout(towerName, fc, typeAlarm);
             yield api_1.fcService.update(towerName, fc.id, 'alarm', 2);
         }

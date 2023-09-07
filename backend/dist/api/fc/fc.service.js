@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCollection = exports.closeAllAlarms = exports.updateAll = exports.update = exports.getById = exports.query = void 0;
 const services_1 = require("../../services");
 const db_service_1 = require("../../services/db.service");
-const enums_1 = require("../../types/enums");
+const types_1 = require("../../types");
 const dbName = 'tsDB';
 function query(tower, floor) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -150,19 +150,19 @@ function _getCollectionName(towerName) {
     let collectonName;
     switch (towerName) {
         case 'A':
-            collectonName = enums_1.CollectionName.Fc_a;
+            collectonName = types_1.CollectionName.Fc_a;
             break;
         case 'B':
-            collectonName = enums_1.CollectionName.Fc_a;
+            collectonName = types_1.CollectionName.Fc_a;
             break;
         case 'C':
-            collectonName = enums_1.CollectionName.Fc_a;
+            collectonName = types_1.CollectionName.Fc_a;
             break;
         case 'D':
-            collectonName = enums_1.CollectionName.Fc_a;
+            collectonName = types_1.CollectionName.Fc_a;
             break;
         default:
-            collectonName = enums_1.CollectionName.Default;
+            collectonName = types_1.CollectionName.Default;
             break;
     }
     return collectonName;

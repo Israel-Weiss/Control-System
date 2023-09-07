@@ -13,15 +13,14 @@ exports.startAckInterval = exports.ackAll = exports.ackAlarm = exports.endAll = 
 const services_1 = require("../../services");
 const services_2 = require("../../services");
 const __1 = require("../");
-const enums_1 = require("../../types/enums");
-const enums_2 = require("../../types/enums");
+const types_1 = require("../../types");
 const dbName = 'tsDB';
 const emitAlarm = 'alarm';
 const jerusalemZone = 'Asia/Jerusalem';
 function query() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_2.getCollection)(dbName, enums_1.CollectionName.Alarm);
+            let collection = yield (0, services_2.getCollection)(dbName, types_1.CollectionName.Alarm);
             let alarms = yield collection.find({}).sort({ startTime: -1 }).limit(4000).toArray();
             return alarms;
         }
@@ -36,7 +35,7 @@ function addAlarm(towerName, fcId, typeAlarm) {
         try {
             const fc = yield __1.fcService.getById(towerName, fcId);
             const alarm = _createTempAlarm(towerName, fc, typeAlarm);
-            let collection = yield (0, services_2.getCollection)(dbName, enums_1.CollectionName.Alarm);
+            let collection = yield (0, services_2.getCollection)(dbName, types_1.CollectionName.Alarm);
             yield collection.insertOne(alarm);
             services_1.socketService.emitRender(emitAlarm);
             services_1.socketService.emitRender(_getEmitFc(towerName, fc.floor));
@@ -51,7 +50,7 @@ exports.addAlarm = addAlarm;
 function endAlarm(alarmId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_2.getCollection)(dbName, enums_1.CollectionName.Alarm);
+            let collection = yield (0, services_2.getCollection)(dbName, types_1.CollectionName.Alarm);
             yield collection.updateOne({ id: alarmId, acknolage: false }, { $set: { activation: false, alarmStatus: 2, endTime: new Date().toLocaleString('en-GB', { timeZone: jerusalemZone }) } });
             yield collection.deleteOne({ id: alarmId, acknolage: true });
             services_1.socketService.emitRender(emitAlarm);
@@ -66,7 +65,7 @@ exports.endAlarm = endAlarm;
 function endAll() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_2.getCollection)(dbName, enums_1.CollectionName.Alarm);
+            let collection = yield (0, services_2.getCollection)(dbName, types_1.CollectionName.Alarm);
             yield collection.updateMany({ acknolage: false }, { $set: { activation: false, alarmStatus: 2, endTime: new Date().toLocaleString('en-GB', { timeZone: jerusalemZone }) } });
             yield collection.deleteMany({ acknolage: true });
             services_1.socketService.emitRender(emitAlarm);
@@ -81,7 +80,7 @@ exports.endAll = endAll;
 function ackAlarm(alarmId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_2.getCollection)(dbName, enums_1.CollectionName.Alarm);
+            let collection = yield (0, services_2.getCollection)(dbName, types_1.CollectionName.Alarm);
             yield collection.updateOne({ id: alarmId, activation: true }, { $set: { acknolage: true, alarmStatus: 3, ackTime: new Date().toLocaleString('en-GB', { timeZone: jerusalemZone }) } });
             yield collection.deleteOne({ id: alarmId, activation: false });
             services_1.socketService.emitRender(emitAlarm);
@@ -96,7 +95,7 @@ exports.ackAlarm = ackAlarm;
 function ackAll() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_2.getCollection)(dbName, enums_1.CollectionName.Alarm);
+            let collection = yield (0, services_2.getCollection)(dbName, types_1.CollectionName.Alarm);
             yield collection.updateMany({ activation: true }, { $set: { acknolage: true, alarmStatus: 3, ackTime: new Date().toLocaleString('en-GB', { timeZone: jerusalemZone }) } });
             yield collection.deleteMany({ activation: false });
             services_1.socketService.emitRender(emitAlarm);
@@ -121,7 +120,9 @@ function startAckInterval() {
 }
 exports.startAckInterval = startAckInterval;
 function _createTempAlarm(towerName, fc, typeAlarm) {
-    const alarmDescription = enums_2.TypeAlarm.High ? enums_2.TypeAlarm.High : enums_2.TypeAlarm.Low;
+    const alarmDescription = typeAlarm === types_1.TypeAlarm.High
+        ? types_1.AlarmDes.High
+        : types_1.AlarmDes.Low;
     const alarm = {
         id: _makeId(12),
         fc: {

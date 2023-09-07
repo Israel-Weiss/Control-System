@@ -6,12 +6,12 @@ import { AddUser } from "../cmps/add-user"
 import { UpdateUser } from "../cmps/update-user"
 import { useSelector } from "react-redux"
 import '@fortawesome/fontawesome-free/css/all.css'
-import { User, Users, State } from "../services/types"
+import { User, State } from "../types/interfaces"
 
 
 export function UserManage(): ReactElement {
 
-    const [users, setUsers] = useState<Users>([])
+    const [users, setUsers] = useState<User[]>([])
 
     useEffect(() => {
         loadUsers()
@@ -20,7 +20,7 @@ export function UserManage(): ReactElement {
     }, [])
 
     const loadUsers = async (): Promise<void> => {
-        const usersList: Users = await getUsers()
+        const usersList: User[] = await getUsers()
         setUsers(usersList)
     }
 

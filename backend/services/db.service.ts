@@ -1,7 +1,7 @@
 import * as mongoDB from "mongodb"
 import 'dotenv/config'
 
-import { CollectionName } from "../types/enums"
+import { CollectionName } from "../types"
 
 export async function getCollection(dbName: string, collectionName: CollectionName): Promise<mongoDB.Collection> {
     try {

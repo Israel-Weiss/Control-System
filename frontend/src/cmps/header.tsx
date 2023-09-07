@@ -6,7 +6,7 @@ import { Time } from "./time"
 import { Login } from "./login"
 import { checkUser } from '../services/user.service'
 import { login } from "../store/actions/user.action"
-import { User, State } from "../services/types"
+import { User, State } from "../types/interfaces"
 
 
 import userIcon from '../assets/imgs/users.jpg'

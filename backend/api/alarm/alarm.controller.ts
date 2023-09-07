@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
 import { query, endAlarm, ackAlarm, ackAll } from './alarm.service'
-import { Alarm } from '../../types/interfaces'
+import { Alarm } from '../../types'
 
 
 

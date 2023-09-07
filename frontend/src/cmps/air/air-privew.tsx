@@ -2,7 +2,7 @@ import { ReactElement } from 'react'
 import fanOff from '../../assets/imgs/off.jpg'
 import fanOn1 from '../../assets/imgs/on1.jpg'
 import fanOn2 from '../../assets/imgs/on2.jpg'
-import { Fc } from "../../services/types"
+import { Fc } from "../../types/interfaces"
 
 import { mode, fan, com, status, alarm } from "../../services/field.params"
 

@@ -11,13 +11,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.remove = exports.add = exports.update = exports.getByParams = exports.getById = exports.query = void 0;
 const services_1 = require("../../services");
-const enums_1 = require("../../types/enums");
+const types_1 = require("../../types");
 const dbName = 'tsDB';
 const emitUser = 'user';
 function query() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_1.getCollection)(dbName, enums_1.CollectionName.User);
+            let collection = yield (0, services_1.getCollection)(dbName, types_1.CollectionName.User);
             let users = yield collection.find({}).toArray();
             return users;
         }
@@ -30,7 +30,7 @@ exports.query = query;
 function getById(userId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_1.getCollection)(dbName, enums_1.CollectionName.User);
+            let collection = yield (0, services_1.getCollection)(dbName, types_1.CollectionName.User);
             const user = yield collection.findOne({ id: userId });
             return user;
         }
@@ -43,7 +43,7 @@ exports.getById = getById;
 function getByParams(userName, password) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_1.getCollection)(dbName, enums_1.CollectionName.User);
+            let collection = yield (0, services_1.getCollection)(dbName, types_1.CollectionName.User);
             const user = yield collection.findOne({ name: { $regex: userName, $options: 'i' }, password: password });
             return user;
         }
@@ -56,7 +56,7 @@ exports.getByParams = getByParams;
 function update(userId, password, authorization) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_1.getCollection)(dbName, enums_1.CollectionName.User);
+            let collection = yield (0, services_1.getCollection)(dbName, types_1.CollectionName.User);
             yield collection.updateOne({ id: userId }, { $set: { password: password, authorization: authorization } });
             const newUser = yield getById(userId);
             services_1.socketService.emitRender(emitUser);
@@ -72,7 +72,7 @@ function add(name, password, authorization) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const newUser = { id: _makeId(), name, authorization, password, default: false };
-            let collection = yield (0, services_1.getCollection)(dbName, enums_1.CollectionName.User);
+            let collection = yield (0, services_1.getCollection)(dbName, types_1.CollectionName.User);
             yield collection.insertOne(newUser);
             services_1.socketService.emitRender(emitUser);
             return yield getById(newUser.id);
@@ -86,7 +86,7 @@ exports.add = add;
 function remove(userId) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            let collection = yield (0, services_1.getCollection)(dbName, enums_1.CollectionName.User);
+            let collection = yield (0, services_1.getCollection)(dbName, types_1.CollectionName.User);
             collection.deleteOne({ id: userId });
             services_1.socketService.emitRender(emitUser);
             return;

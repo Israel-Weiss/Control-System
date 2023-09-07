@@ -1,8 +1,7 @@
 import * as mongoDB from "mongodb"
 
 import { getCollection, socketService } from '../../services'
-import { User } from '../../types/interfaces'
-import { CollectionName } from '../../types/enums'
+import { User, CollectionName } from '../../types'
 
 const dbName = 'tsDB'
 const emitUser = 'user'

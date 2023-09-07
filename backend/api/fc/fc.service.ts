@@ -2,8 +2,7 @@ import * as mongoDB from "mongodb"
 
 import { socketService } from '../../services'
 import { getCollection } from '../../services/db.service'
-import { Fc } from '../../types/interfaces'
-import { CollectionName } from "../../types/enums"
+import { Fc, CollectionName } from '../../types'
 
 const dbName = 'tsDB'
 

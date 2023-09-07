@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect, useRef } from "react"
 import { updateUser } from "../services/user.service"
-import { User } from "../services/types"
+import { User } from "../types/interfaces"
 
 interface Props { user: User, close: () => void }
 
