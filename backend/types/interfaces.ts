@@ -22,7 +22,6 @@ export interface Fc {
     },
     version: number
 }
-export type Fcs = Fc[]
 
 export interface Alarm {
     _id?: mongoDB.ObjectId,
@@ -42,7 +41,6 @@ export interface Alarm {
     family: string,
     txt: string
 }
-export type Alarms = Alarm[]
 
 export interface User {
     _id?: mongoDB.ObjectId,
@@ -52,5 +50,4 @@ export interface User {
     password: string,
     default: boolean
 }
-export type Users = User[]
 

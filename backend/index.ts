@@ -3,12 +3,8 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import dotenv from 'dotenv'
 
-import * as tempService from './services/temp.service'
-import * as timeService from './services/time.service'
-import * as alarmService from './api/alarm/alarm.service'
-import { fcRoutes } from './api/fc/fc.routes'
-import { alarmRoutes } from './api/alarm/alarm.routes'
-import { userRoutes } from './api/user/user.routes'
+import { tempService, timeService } from './services'
+import { fcRoutes, alarmRoutes, userRoutes, alarmService } from './api'
 import { setupSocketAPI } from './services/socket.service'
 
 dotenv.config()

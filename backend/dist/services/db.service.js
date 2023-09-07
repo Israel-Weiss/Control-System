@@ -34,6 +34,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCollection = void 0;
 const mongoDB = __importStar(require("mongodb"));
+require("dotenv/config");
 function getCollection(dbName, collectionName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -53,7 +54,7 @@ function connect(dbName) {
         if (dbConnection)
             return dbConnection;
         try {
-            const client = yield mongoDB.MongoClient.connect('mongodb+srv://israel:israel123@cluster0.syzvtaz.mongodb.net/?retryWrites=true&w=majority');
+            const client = yield mongoDB.MongoClient.connect(process.env.MONGO_CHANNEL);
             dbConnection = client.db(dbName);
             return dbConnection;
         }

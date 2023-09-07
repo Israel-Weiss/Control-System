@@ -33,8 +33,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createJsonFiles = void 0;
-const fcService = __importStar(require("./fc.service"));
 const desImport = __importStar(require("../../data/descriptios"));
+const fc_service_1 = require("./fc.service");
 const towerNames = ['A', 'B', 'C', 'D'];
 const { fcsDesA, fcsDesB, fcsDesC, fcsDesD } = desImport;
 const allFcsDes = [fcsDesA, fcsDesB, fcsDesC, fcsDesD];
@@ -49,7 +49,7 @@ function createJsonFiles() {
                 let flFcs = _createFloor(curFlDes, towerName, floor);
                 fcs.push(...flFcs);
             }
-            yield fcService.createCollection(towerName, fcs);
+            yield (0, fc_service_1.createCollection)(towerName, fcs);
             console.log(towerName);
         }
     });

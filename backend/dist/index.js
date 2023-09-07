@@ -30,12 +30,8 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const tempService = __importStar(require("./services/temp.service"));
-const timeService = __importStar(require("./services/time.service"));
-const alarmService = __importStar(require("./api/alarm/alarm.service"));
-const fc_routes_1 = require("./api/fc/fc.routes");
-const alarm_routes_1 = require("./api/alarm/alarm.routes");
-const user_routes_1 = require("./api/user/user.routes");
+const services_1 = require("./services");
+const api_1 = require("./api");
 const socket_service_1 = require("./services/socket.service");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -50,18 +46,16 @@ const corsOptions = {
     credentials: true
 };
 app.use((0, cors_1.default)(corsOptions));
-// app.use(cors())
-// app.use(express.static(path.resolve(__dirname, 'public')))
 const port = process.env.PORT || 3030;
-app.use('/api/fc', fc_routes_1.fcRoutes);
-app.use('/api/alarm', alarm_routes_1.alarmRoutes);
-app.use('/api/user', user_routes_1.userRoutes);
+app.use('/api/fc', api_1.fcRoutes);
+app.use('/api/alarm', api_1.alarmRoutes);
+app.use('/api/user', api_1.userRoutes);
 app.get('/', (req, res) => {
     res.send('Express + TypeScript Server');
 });
 http.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
-tempService.startTempInterval();
-timeService.startTimeInterval();
-alarmService.startAckInterval();
+services_1.tempService.startTempInterval();
+services_1.timeService.startTimeInterval();
+api_1.alarmService.startAckInterval();

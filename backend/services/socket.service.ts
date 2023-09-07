@@ -1,5 +1,5 @@
 import * as HTTP from "http"
-import { Socket } from "socket.io";
+import { Socket } from "socket.io"
 
 export {
     setupSocketAPI,

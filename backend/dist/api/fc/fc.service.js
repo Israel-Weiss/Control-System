@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -33,8 +10,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createCollection = exports.closeAllAlarms = exports.updateAll = exports.update = exports.getById = exports.query = void 0;
-const socketService = __importStar(require("../../services/socket.service"));
+const services_1 = require("../../services");
 const db_service_1 = require("../../services/db.service");
+const enums_1 = require("../../types/enums");
 const dbName = 'tsDB';
 function query(tower, floor) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -135,7 +113,7 @@ function update(tower, fcId, field, val) {
                     break;
             }
             const newFc = yield getById(tower, fcId);
-            socketService.emitRender(`fcs-${tower}-${newFc.floor}`);
+            services_1.socketService.emitRender(_getEmitFc(tower, newFc.floor));
             return newFc;
         }
         catch (err) {
@@ -169,5 +147,26 @@ function _getRandomIntInclusive(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 function _getCollectionName(towerName) {
-    return `fc-${towerName.toLowerCase()}`;
+    let collectonName;
+    switch (towerName) {
+        case 'A':
+            collectonName = enums_1.CollectionName.Fc_a;
+            break;
+        case 'B':
+            collectonName = enums_1.CollectionName.Fc_a;
+            break;
+        case 'C':
+            collectonName = enums_1.CollectionName.Fc_a;
+            break;
+        case 'D':
+            collectonName = enums_1.CollectionName.Fc_a;
+            break;
+        default:
+            collectonName = enums_1.CollectionName.Default;
+            break;
+    }
+    return collectonName;
+}
+function _getEmitFc(towerName, floor) {
+    return `fcs-${towerName}-${floor}`;
 }

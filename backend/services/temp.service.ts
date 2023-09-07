@@ -1,10 +1,11 @@
-import * as mongoDB from "mongodb"
-import * as fcService from '../api/fc/fc.service'
-import * as alarmService from '../api/alarm/alarm.service'
-import * as socketService from './socket.service'
-import { Fc, Fcs } from './types'
+import { fcService, alarmService} from '../api'
+import { socketService } from './'
+
+import { Fc } from '../types/interfaces'
+import { TypeAlarm } from '../types/enums'
 
 const towerNames = ['A', 'B', 'C', 'D']
+const emitFcs = 'fcsList'
 
 interface TimeoutId { id: string, timeout?: NodeJS.Timeout }
 type TimeoutIds = TimeoutId[]
@@ -18,19 +19,19 @@ async function startTempInterval(): Promise<void> {
         for (var i = 0; i < towerNames.length; i++) {
             await _setTowerTemp(towerNames[i])
         }
-        socketService.emitRender('fcsList')
+        socketService.emitRender(emitFcs)
     }, 300 * 1000)
 }
 
 async function _setTowerTemp(towerName: string) {
-    const fcsList: Fcs = await fcService.query(towerName)
-    const upTempFcs: Fcs = fcsList.map((fc: Fc): Fc => {
+    const fcsList: Fc[] = await fcService.query(towerName)
+    const upTempFcs: Fc[] = fcsList.map((fc: Fc): Fc => {
         fc.temp = _createTemp(fc.temp, fc.spTemp)
         fc.version = 1
         delete fc._id
         return fc
     })
-    const upAlarmFcs: Fcs = _getTowerListUpAlarms(upTempFcs, towerName)
+    const upAlarmFcs: Fc[] = _getTowerListUpAlarms(upTempFcs, towerName)
     await fcService.updateAll(towerName, upAlarmFcs)
 }
 
@@ -51,14 +52,14 @@ function _getNextTemp(num: number, val: number): number {
     return newVal
 }
 
-function _getTowerListUpAlarms(fcsList: Fcs, towerName: string): Fcs {
-    const nweList: Fcs = fcsList.map((curFc: Fc): Fc => {
+function _getTowerListUpAlarms(fcsList: Fc[], towerName: string): Fc[] {
+    const nweList: Fc[] = fcsList.map((curFc: Fc): Fc => {
         const intervalAlarm: boolean = curFc.intervalToAlarm <= Math.abs(curFc.temp - curFc.spTemp) ? true : false
         if ((!intervalAlarm && curFc.alarm === 0) || (intervalAlarm && curFc.alarm > 0)) {
             return curFc
         }
         if (intervalAlarm) {
-            const typeAlarm = curFc.temp > curFc.spTemp ? 'high' : 'low'
+            const typeAlarm: TypeAlarm = curFc.temp > curFc.spTemp ? TypeAlarm.High : TypeAlarm.Low
             _startTimeout(towerName, curFc, typeAlarm)
             curFc.alarm = 2
         }
@@ -85,7 +86,7 @@ async function _resetAppTemp(): Promise<void> {
     }
 }
 
-function _startTimeout(towerName: string, fc: Fc, typeAlarm: string): void {
+function _startTimeout(towerName: string, fc: Fc, typeAlarm: TypeAlarm): void {
     const timeoutIdx: number = timeoutIds.findIndex((timeoutId: TimeoutId): boolean => timeoutId.id === fc.id)
 
     timeoutIds[timeoutIdx].timeout = setTimeout(() => {
@@ -98,10 +99,10 @@ function _stopTimeout(fcId: string): void {
     clearTimeout(timeoutIds[timeoutIdx].timeout)
 }
 
-async function _openAlarm(towerName: string, fcId: string, typeAlarm: string): Promise<void> {
+async function _openAlarm(towerName: string, fcId: string, typeAlarm: TypeAlarm): Promise<void> {
     const alarmId: string = await alarmService.addAlarm(towerName, fcId, typeAlarm)
     const tempAlarm: { status: number, highTempId: string | null, lowTempId: string | null } =
-        typeAlarm === 'high'
+        typeAlarm === TypeAlarm.High
             ? { status: 1, highTempId: alarmId, lowTempId: null }
             : { status: 2, highTempId: null, lowTempId: alarmId }
     fcService.update(towerName, fcId, 'startAlarm', tempAlarm)
@@ -138,7 +139,7 @@ async function _updateAlarm(towerName: string, fcId: string): Promise<void> {
         || (deviationAlarm && fc.alarm > 0)) return
 
     if (deviationAlarm) {
-        const typeAlarm: string = fc.temp > fc.spTemp ? 'high' : 'low'
+        const typeAlarm: TypeAlarm = fc.temp > fc.spTemp ? TypeAlarm.High : TypeAlarm.Low
         _startTimeout(towerName, fc, typeAlarm)
         await fcService.update(towerName, fc.id, 'alarm', 2)
     }
@@ -152,7 +153,7 @@ async function _updateAlarm(towerName: string, fcId: string): Promise<void> {
 async function _createTimeoutIds(): Promise<TimeoutIds> {
     timeoutIds = []
     for (var i = 0; i < towerNames.length; i++) {
-        const fcs: Fcs = await fcService.query(towerNames[i])
+        const fcs: Fc[] = await fcService.query(towerNames[i])
         fcs.forEach((fc: Fc) => timeoutIds.push({ id: fc.id, timeout: undefined }))
     }
     return timeoutIds

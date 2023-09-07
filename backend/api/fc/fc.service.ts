@@ -1,14 +1,16 @@
 import * as mongoDB from "mongodb"
-import * as socketService from '../../services/socket.service'
+
+import { socketService } from '../../services'
 import { getCollection } from '../../services/db.service'
-import { Fc, Fcs } from '../../services/types'
+import { Fc } from '../../types/interfaces'
+import { CollectionName } from "../../types/enums"
 
 const dbName = 'tsDB'
 
-async function query(tower: string, floor?: string): Promise<Fcs> {
+async function query(tower: string, floor?: string): Promise<Fc[]> {
     try {
         let collection: mongoDB.Collection = await getCollection(dbName, _getCollectionName(tower))
-        let fcsList: Fcs = floor ? await collection.find({ floor }).toArray() as Fcs : await collection.find({}).toArray() as Fcs
+        let fcsList: Fc[] = floor ? await collection.find({ floor }).toArray() as Fc[] : await collection.find({}).toArray() as Fc[]
         return fcsList
     } catch (err) {
         throw err
@@ -28,14 +30,14 @@ async function getById(tower: string, fcId: string): Promise<Fc> {
 }
 
 
-async function updateAll(tower: string, fcs: Fcs): Promise<Fcs> {
+async function updateAll(tower: string, fcs: Fc[]): Promise<Fc[]> {
     try {
         console.log('updateAll 1');
         let collection: mongoDB.Collection = await getCollection(dbName, _getCollectionName(tower))
         await collection.insertMany(fcs)
         await collection.deleteMany({ version: 0 })
         await collection.updateMany({}, { $set: { version: 0 } })
-        const newList: Fcs = await query(tower) 
+        const newList: Fc[] = await query(tower) 
         console.log('updateAll 2', tower);
         return newList
     } catch (err) {
@@ -43,12 +45,12 @@ async function updateAll(tower: string, fcs: Fcs): Promise<Fcs> {
     }
 }
 
-async function createCollection(tower: string, fcs: Fcs): Promise<Fcs> {
+async function createCollection(tower: string, fcs: Fc[]): Promise<Fc[]> {
     try {
         let collection: mongoDB.Collection = await getCollection(dbName, _getCollectionName(tower))
         await collection.deleteMany({})
         await collection.insertMany(fcs)
-        const newList: Fcs = await query(tower)
+        const newList: Fc[] = await query(tower)
         return newList
     } catch (err) {
         throw err
@@ -93,7 +95,7 @@ async function update(tower: string, fcId: string, field: string, val?: number |
                 break;
         }
         const newFc: Fc = await getById(tower, fcId)
-        socketService.emitRender(`fcs-${tower}-${newFc.floor}`)
+        socketService.emitRender(_getEmitFc(tower, newFc.floor))
         return newFc
     } catch (err) {
         throw err
@@ -121,8 +123,26 @@ function _getRandomIntInclusive(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
-function _getCollectionName(towerName: string): string {
-    return `fc-${towerName.toLowerCase()}`
+function _getCollectionName(towerName: string): CollectionName {
+    let collectonName: CollectionName
+    switch (towerName) {
+        case 'A':
+            collectonName = CollectionName.Fc_a
+            break
+        case 'B':
+            collectonName = CollectionName.Fc_a
+            break
+        case 'C':
+            collectonName = CollectionName.Fc_a
+            break
+        case 'D':
+            collectonName = CollectionName.Fc_a
+            break
+        default:
+            collectonName = CollectionName.Default
+            break
+    }
+    return collectonName
 }
 
 export {
@@ -132,6 +152,10 @@ export {
     updateAll,
     closeAllAlarms,
     createCollection
+}
+
+function _getEmitFc(towerName: string, floor: string) {
+    return `fcs-${towerName}-${floor}`
 }
 
 

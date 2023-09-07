@@ -1,6 +1,6 @@
-import * as fcService from './fc.service'
 import * as desImport from '../../data/descriptios'
-import { Fc, Fcs } from '../../services/types'
+import { createCollection } from './fc.service'
+import { Fc } from '../../types/interfaces'
 
 const towerNames = ['A', 'B', 'C', 'D']
 
@@ -14,19 +14,19 @@ export async function createJsonFiles(): Promise<void> {
     for (var i = 0; i < allFcsDes.length; i++) {
         let towerName: string = towerNames[i]
         let towerDesObj: towerDes = allFcsDes[i]
-        let fcs: Fcs = []
+        let fcs: Fc[] = []
         for (const floor in towerDesObj) {
             const curFlDes: flDes = towerDesObj[floor]
-            let flFcs: Fcs = _createFloor(curFlDes, towerName, floor)
+            let flFcs: Fc[] = _createFloor(curFlDes, towerName, floor)
             fcs.push(...flFcs)
         }
-        await fcService.createCollection(towerName, fcs)
+        await createCollection(towerName, fcs)
         console.log(towerName)
     }
 }
 
-function _createFloor(flDes: flDes, towerName: string, floor: string): Fcs {
-    let fcs: Fcs = []
+function _createFloor(flDes: flDes, towerName: string, floor: string): Fc[] {
+    let fcs: Fc[] = []
     let num = (+floor.replace('fl', '')) * 100
     for (var i = 0; i < flDes.length; i++) {
         let stNum: string = '' + num

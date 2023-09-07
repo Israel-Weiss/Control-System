@@ -1,10 +1,15 @@
 import * as mongoDB from "mongodb"
-import * as socketService from '../../services/socket.service'
-import { getCollection } from '../../services/db.service'
-import * as fcService from'../fc/fc.service'
-import { Alarm, Alarms, Fc } from '../../services/types'
+
+import { socketService } from '../../services'
+import { getCollection } from '../../services'
+import { fcService } from '../'
+import { Alarm, Fc } from '../../types/interfaces'
+import { CollectionName } from '../../types/enums'
+import { TypeAlarm } from "../../types/enums"
 
 const dbName = 'tsDB'
+const emitAlarm = 'alarm'
+const jerusalemZone = 'Asia/Jerusalem'
 
 export {
     query,
@@ -16,25 +21,25 @@ export {
     startAckInterval
 }
 
-async function query(): Promise<Alarms> {
+async function query(): Promise<Alarm[]> {
     try {
-        let collection: mongoDB.Collection = await getCollection(dbName, 'alarm')
-        let alarms = await collection.find({}).sort({ startTime: -1 }).limit(4000).toArray() as Alarms
+        let collection: mongoDB.Collection = await getCollection(dbName, CollectionName.Alarm)
+        let alarms = await collection.find({}).sort({ startTime: -1 }).limit(4000).toArray() as Alarm[]
         return alarms
     } catch (err) {
         throw err
     }
 }
 
-async function addAlarm(towerName: string, fcId: string, typeAlarm: string): Promise<string> {
+async function addAlarm(towerName: string, fcId: string, typeAlarm: TypeAlarm): Promise<string> {
     try {
         const fc: Fc = await fcService.getById(towerName, fcId)
         const alarm: Alarm = _createTempAlarm(towerName, fc, typeAlarm)
-        let collection: mongoDB.Collection = await getCollection(dbName, 'alarm')
+        let collection: mongoDB.Collection = await getCollection(dbName, CollectionName.Alarm)
         await collection.insertOne(alarm)
 
-        socketService.emitRender('alarm')
-        socketService.emitRender(`fcs-${towerName}-${fc.floor}`)
+        socketService.emitRender(emitAlarm)
+        socketService.emitRender(_getEmitFc(towerName, fc.floor))
         return alarm.id
     } catch (err) {
         throw err
@@ -43,11 +48,11 @@ async function addAlarm(towerName: string, fcId: string, typeAlarm: string): Pro
 
 async function endAlarm(alarmId: string): Promise<void> {
     try {
-        let collection: mongoDB.Collection = await getCollection(dbName, 'alarm')
+        let collection: mongoDB.Collection = await getCollection(dbName, CollectionName.Alarm)
         await collection.updateOne({ id: alarmId, acknolage: false },
-            { $set: { activation: false, alarmStatus: 2, endTime: new Date().toLocaleString('en-GB', { timeZone: 'Asia/Jerusalem' }) } })
+            { $set: { activation: false, alarmStatus: 2, endTime: new Date().toLocaleString('en-GB', { timeZone: jerusalemZone }) } })
         await collection.deleteOne({ id: alarmId, acknolage: true })
-        socketService.emitRender('alarm')
+        socketService.emitRender(emitAlarm)
         return
     } catch (err) {
         throw err
@@ -56,10 +61,10 @@ async function endAlarm(alarmId: string): Promise<void> {
 
 async function endAll(): Promise<void> {
     try {
-        let collection: mongoDB.Collection = await getCollection(dbName, 'alarm')
-        await collection.updateMany({ acknolage: false }, { $set: { activation: false, alarmStatus: 2, endTime: new Date().toLocaleString('en-GB', { timeZone: 'Asia/Jerusalem' }) } })
+        let collection: mongoDB.Collection = await getCollection(dbName, CollectionName.Alarm)
+        await collection.updateMany({ acknolage: false }, { $set: { activation: false, alarmStatus: 2, endTime: new Date().toLocaleString('en-GB', { timeZone: jerusalemZone }) } })
         await collection.deleteMany({ acknolage: true })
-        socketService.emitRender('alarm')
+        socketService.emitRender(emitAlarm)
         return
     } catch (err) {
         throw err
@@ -68,10 +73,10 @@ async function endAll(): Promise<void> {
 
 async function ackAlarm(alarmId: string): Promise<void> {
     try {
-        let collection: mongoDB.Collection = await getCollection(dbName, 'alarm')
-        await collection.updateOne({ id: alarmId, activation: true }, { $set: { acknolage: true, alarmStatus: 3, ackTime: new Date().toLocaleString('en-GB', { timeZone: 'Asia/Jerusalem' }) } })
+        let collection: mongoDB.Collection = await getCollection(dbName, CollectionName.Alarm)
+        await collection.updateOne({ id: alarmId, activation: true }, { $set: { acknolage: true, alarmStatus: 3, ackTime: new Date().toLocaleString('en-GB', { timeZone: jerusalemZone }) } })
         await collection.deleteOne({ id: alarmId, activation: false })
-        socketService.emitRender('alarm')
+        socketService.emitRender(emitAlarm)
         return
     } catch (err) {
         throw err
@@ -80,10 +85,10 @@ async function ackAlarm(alarmId: string): Promise<void> {
 
 async function ackAll(): Promise<void> {
     try {
-        let collection: mongoDB.Collection = await getCollection(dbName, 'alarm')
-        await collection.updateMany({ activation: true }, { $set: { acknolage: true, alarmStatus: 3, ackTime: new Date().toLocaleString('en-GB', { timeZone: 'Asia/Jerusalem' }) } })
+        let collection: mongoDB.Collection = await getCollection(dbName, CollectionName.Alarm)
+        await collection.updateMany({ activation: true }, { $set: { acknolage: true, alarmStatus: 3, ackTime: new Date().toLocaleString('en-GB', { timeZone: jerusalemZone }) } })
         await collection.deleteMany({ activation: false })
-        socketService.emitRender('alarm')
+        socketService.emitRender(emitAlarm)
         return
     } catch (err) {
         throw err
@@ -95,12 +100,12 @@ async function startAckInterval(): Promise<void> {
     if (intervalId) clearInterval(intervalId)
     intervalId = setInterval(async () => {
         await ackAll()
-        socketService.emitRender('alarm')
+        socketService.emitRender(emitAlarm)
     }, 30 * 60 * 1000)
 }
 
-function _createTempAlarm(towerName: string, fc: Fc, typeAlarm: string): Alarm {
-    const alarmDescription: string = typeAlarm === 'high' ? 'High temperature' : 'Low temperature'
+function _createTempAlarm(towerName: string, fc: Fc, typeAlarm: TypeAlarm): Alarm {
+    const alarmDescription: TypeAlarm = TypeAlarm.High ? TypeAlarm.High : TypeAlarm.Low
     const alarm: Alarm = {
         id: _makeId(12),
         fc: {
@@ -108,7 +113,7 @@ function _createTempAlarm(towerName: string, fc: Fc, typeAlarm: string): Alarm {
             id: fc.id
         },
         alarmStatus: 1,
-        startTime: new Date().toLocaleString('en-GB', { timeZone: 'Asia/Jerusalem' }),
+        startTime: new Date().toLocaleString('en-GB', { timeZone: jerusalemZone }),
         activation: true,
         endTime: null,
         acknolage: false,
@@ -129,5 +134,9 @@ function _makeId(length = 6): string {
         idText += char
     }
     return idText
+}
+
+function _getEmitFc(towerName: string, floor: string) {
+    return `fcs-${towerName}-${floor}`
 }
 

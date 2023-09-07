@@ -1,6 +1,9 @@
 import * as mongoDB from "mongodb"
+import 'dotenv/config'
 
-export async function getCollection(dbName: string, collectionName: string): Promise<mongoDB.Collection> {
+import { CollectionName } from "../types/enums"
+
+export async function getCollection(dbName: string, collectionName: CollectionName): Promise<mongoDB.Collection> {
     try {
         const db: mongoDB.Db = await connect(dbName)
         const collection: mongoDB.Collection = await db.collection(collectionName)
@@ -15,7 +18,7 @@ var dbConnection: mongoDB.Db
 async function connect(dbName: string): Promise<mongoDB.Db> {
     if (dbConnection) return dbConnection
     try {
-        const client: mongoDB.MongoClient = await mongoDB.MongoClient.connect('mongodb+srv://israel:israel123@cluster0.syzvtaz.mongodb.net/?retryWrites=true&w=majority')
+        const client: mongoDB.MongoClient = await mongoDB.MongoClient.connect(process.env.MONGO_CHANNEL!)
         dbConnection = client.db(dbName)
         return dbConnection
     } catch (err) {
