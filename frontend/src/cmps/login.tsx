@@ -39,10 +39,14 @@ export function Login({ login, close }: Props): ReactElement {
     return <div className="login-continer">
         <p className='title'>Login user</p>
         <form onSubmit={onCheckUser}>
+            <div>
             <label htmlFor="">User name: </label>
-            <input className='input' type="text" name='userName' onChange={handleChange} ref={inputElement} />
+            <input className='input' type="text" name='userName' onChange={handleChange} ref={inputElement}/>
+            </div>
+            <div>
             <label htmlFor=""> &nbsp; Password: </label>
             <input className='input' type="text" name='password' onChange={handleChange} />
+            </div>
             <button className='ok'>OK</button>
             {incorrect && <p className='incorrect'>Error! name or password is incorrect Please try again</p>}
         </form>

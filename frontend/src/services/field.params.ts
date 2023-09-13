@@ -1,34 +1,34 @@
-type Params = {txt: string, class: string}[]
+import { ModeTxt, ModeClass, FanTxt, FanClass, ComTxt, ComClass, StatusTxt, StatusClass, AlarmTxt, AlarmClass } from '../types/enums'
 
-const mode: Params = [
-    {txt: 'COOL', class: "cool"},
-    {txt: 'HEAT', class: "heat"},
-    {txt: 'FAN', class: "fan"},
-    {txt: 'AUTO', class: "auto"}
+const mode: { txt: ModeTxt, class: ModeClass }[] = [
+    { txt: ModeTxt.Cool, class: ModeClass.Cool },
+    { txt: ModeTxt.Heat, class: ModeClass.Heat },
+    { txt: ModeTxt.Fan, class: ModeClass.Fan },
+    { txt: ModeTxt.Auto, class: ModeClass.Auto }
 ]
 
-const fan: Params = [
-    {txt: 'High', class: "high"},
-    {txt: 'Medium', class: "medium"},
-    {txt: 'Low', class: "low"},
-    {txt: 'Auto', class: "auto"}
+const fan: { txt: FanTxt, class: FanClass }[] = [
+    { txt: FanTxt.High, class: FanClass.High },
+    { txt: FanTxt.Medium, class: FanClass.Medium },
+    { txt: FanTxt.Low, class: FanClass.Low },
+    { txt: FanTxt.Auto, class: FanClass.Auto }
 ]
 
-const com: Params = [
-    {txt: 'OFF', class: "off"},
-    {txt: 'ON', class: "on"},
-    {txt: 'AUTO', class: "auto"}
+const com: { txt: ComTxt, class: ComClass }[] = [
+    { txt: ComTxt.Off, class: ComClass.Off },
+    { txt: ComTxt.On, class: ComClass.On },
+    { txt: ComTxt.Auto, class: ComClass.Auto }
 ]
 
-const status: Params = [
-    {txt: 'OFF', class: "off"},
-    {txt: 'ON', class: "on"}
+const status: { txt: StatusTxt, class: StatusClass }[] = [
+    { txt: StatusTxt.Off, class: StatusClass.Off },
+    { txt: StatusTxt.On, class: StatusClass.On }
 ]
 
-const alarm: Params = [
-    {txt: 'OK', class: "ok"},
-    {txt: 'ALARM', class: "alarm"},
-    {txt: 'OK*', class: "ok"}
+const alarm: { txt: AlarmTxt, class: AlarmClass }[] = [
+    { txt: AlarmTxt.Ok, class: AlarmClass.Ok },
+    { txt: AlarmTxt.Alarm, class: AlarmClass.Alarm },
+    { txt: AlarmTxt.Delay, class: AlarmClass.Ok }
 ]
 
 export {

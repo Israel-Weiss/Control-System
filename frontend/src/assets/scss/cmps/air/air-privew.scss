@@ -40,11 +40,13 @@
         border-color: black white white black;
     }
 
-    .cool {
-        color: rgb(36, 36, 255);
+    .cool,
+    .cool * {
+        color: rgb(36, 36, 255) !important;
     }
 
-    .heat {
+    .heat,
+    .heat * {
         color: red;
     }
 
@@ -52,7 +54,8 @@
         color: black;
     }
 
-    .auto {
+    .auto,
+    .auto * {
         color: rgb(1, 1, 150);
     }
 
@@ -65,17 +68,21 @@
     }
 
     .on,
-    .ok {
+    .ok,
+    .on *,
+    .ok * {
         color: rgb(0, 150, 0);
     }
 
-    .off {
+    .off,
+    .off * {
         color: brown;
     }
 
-    .alarm {
+    .alarm,
+    .alarm * {
         background-color: red;
-        color: yellow;
+        color: yellow !important;
     }
 
     .display.fc-description {
